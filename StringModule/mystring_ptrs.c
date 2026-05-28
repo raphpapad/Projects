@@ -1,12 +1,3 @@
-/*  My String Ptrs
-
-Name: Raphael
-Surname: Papadakis
-AM: 4325
-Assignment: 2
-
-*/
- 
 #include "mystring.h"
 
 	size_t ms_length(const char *pcStr) /* strlen */
