@@ -1,11 +1,3 @@
-/*
-
-Name and Surname: Raphael Papadakis 
-AM: 4325 (csd)
-Exercise: assignment 3
-
-*/
-
 #include "symtable.h"
 #include <stdio.h>
 #include <stdlib.h>
