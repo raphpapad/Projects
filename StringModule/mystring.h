@@ -1,12 +1,3 @@
-/* Header File
-
-Name: Raphael
-Surname: Papadakis
-AM: 4325
-Assignment: 2
-
-*/
-
 #include <stdio.h>
 #include <assert.h>
 #include <stddef.h> // defines macros (kai allou tupou parametrwn)
