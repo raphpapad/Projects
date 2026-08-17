@@ -18,8 +18,7 @@ SymTable_T Symtable_put(SymTable_T oSymTable, const char *pcKey, const void *pvV
 
 void *SymTable_get(SymTable_T oSymTable, const char *pcKey);
 
-void SymTable_map(SymTable_T oSymTable,void (*pfApply)(const char *pcKey,void *pvValue,\
-void *pvExtra),const void *pvExtra);
+void SymTable_map(SymTable_T oSymTable,void (*pfApply)(const char *pcKey,void *pvValue, void *pvExtra),const void *pvExtra);
 
 void print(SymTable_T oSymTable);
 
