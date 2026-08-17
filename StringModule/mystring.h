@@ -1,19 +1,28 @@
 #include <stdio.h>
 #include <assert.h>
-#include <stddef.h> // defines macros (kai allou tupou parametrwn)
+#include <stddef.h> 
+/* defines macros (kai allou tupou parametrwn) */
 
-size_t ms_length (const char *s1);							 /* strlen */
+/* strlen */
+size_t ms_length (const char *s1);							
 
-char *ms_copy(char *dest, const char *src);                  /* strcpy */
+/* strcpy */
+char *ms_copy(char *dest, const char *src);                  
 
-char *ms_ncopy(char *dest, const char *src, size_t n);       /* strncpy */
+/* strncpy */
+char *ms_ncopy(char *dest, const char *src, size_t n);       
 
-char *ms_concat(char *dest, const char *src);                /* strcat */
+/* strcat */
+char *ms_concat(char *dest, const char *src);                
 
-char *ms_nconcat(char *dest, const char *src, size_t n);     /* strncat */
+/* strncat */
+char *ms_nconcat(char *dest, const char *src, size_t n);     
 
-int ms_compare(const char *s1, const char *s2);             /* strcmp */
+/* strcmp */
+int ms_compare(const char *s1, const char *s2);             
 
-int ms_ncompare(const char *s1, const char *s2, size_t n);  /* strncmp */
+/* strncmp */
+int ms_ncompare(const char *s1, const char *s2, size_t n); 
 
-char *ms_search(const char *str1, const char *str2);	    /* strstr */
+/* strstr */
+char *ms_search(const char *str1, const char *str2);	    
