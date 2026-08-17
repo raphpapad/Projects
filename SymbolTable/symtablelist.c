@@ -4,22 +4,21 @@
 #include <assert.h>
 #include <string.h>
 
-struct symtable /* struct symtable binding */
+/* Struct symtable binding */
+struct symtable
 {
     char *key;
     void *value;
     struct symtable *next;
 };
 
-SymTable_T SymTable_new(void) /* ftiaxnei kai epistrefei ena adeio SymTable_T */
+/* Creates and returns an empty SymTable_T */
+SymTable_T SymTable_new(void)
 {
-	int tebugcounter0 = 0; /* gia tebug */
-	
     SymTable_T new;
     new=malloc(sizeof(struct symtable));
     if (!new)
     {
-    	tebugcounter0++;
         fprintf(stderr,"ERROR: Could not allocate new node\n");
         exit(EXIT_FAILURE);
     }
@@ -30,10 +29,9 @@ SymTable_T SymTable_new(void) /* ftiaxnei kai epistrefei ena adeio SymTable_T */
     return new;
 }
 
-void SymTable_free(SymTable_T oSymTable) /* eleutherwnetai h mnimi (an den einai NULL) */
+/* It mallocs memory (if it's not NULL) */
+void SymTable_free(SymTable_T oSymTable)
 {
-	int tebugcounter1 = 0; /* gia tebug */
-	
     SymTable_T p=oSymTable,temp;
     
     if (oSymTable == NULL)
@@ -42,16 +40,17 @@ void SymTable_free(SymTable_T oSymTable) /* eleutherwnetai h mnimi (an den einai
     
     while (p)
     {
-    	tebugcounter1++;
         temp=p->next;
         free(p->key);
         free(p);
         p=temp;
     }
-    free (oSymTable); /* segmentation if user continue uses sumboltable */
+	/* Segmentation if user continue uses sumboltable */
+    free (oSymTable); 
 }
 
-unsigned int SymTable_getLength(SymTable_T oSymTable) /* upologizei kai epistrefei twn arithmo twn bindings pou exei o oSymtable */
+/* Calculates and returns the number of bindings that oSymtable has */
+unsigned int SymTable_getLength(SymTable_T oSymTable)
 {
     unsigned int metritis;
     SymTable_T p;
@@ -59,17 +58,17 @@ unsigned int SymTable_getLength(SymTable_T oSymTable) /* upologizei kai epistref
     p= oSymTable;
     
     metritis = 0;
-    for (; p ; p = p -> next) /* p ; = p!=NULL */
+	/* p ; = p!=NULL */
+    for (; p ; p = p -> next) 
     {
     	metritis++;
 	}
     return metritis-1;
 }
 
-int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue) /* binding(pcKey,pvValue) sto oSymTable an den uparxei */
-{
-    int tebugcounter5 = 0; /* gia tebug */
-    
+/* Binding(pcKey,pvValue) at oSymTable if doesn't exist */
+int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
+{    
     SymTable_T prev,new;
     assert(oSymTable);
     assert(pcKey);
@@ -77,7 +76,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue) /
     if ( SymTable_contains(oSymTable,pcKey) )
         return 0;
     prev = oSymTable;
-    tebugcounter5++;
     
     while (prev -> next)
         prev = prev -> next;
@@ -91,12 +89,12 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue) /
     return 1;
 }
 
-int SymTable_remove(SymTable_T oSymTable, const char *pcKey) /* diwxnei to binding me id pcKey an uparxei ston oSymtable */
+/* Removes the binding with id pcKey if exists at oSymtable */
+int SymTable_remove(SymTable_T oSymTable, const char *pcKey)
 {
-	int tebugcounter2 = 0; /* gia tebug */
-	
     SymTable_T p,prev;
-    assert(oSymTable); /* runtime error gia to oSymatable an einai NULL = assert */
+	/* Runtime error for oSymatable if NULL = assert */
+    assert(oSymTable); 
     assert(pcKey);
     p = oSymTable;
     prev = NULL;
@@ -108,20 +106,20 @@ int SymTable_remove(SymTable_T oSymTable, const char *pcKey) /* diwxnei to bindi
     }
     if (p == NULL)
         return 0; 
-    else if (prev == NULL) /* 1st node deletion */
+	/* 1st node deletion */
+    else if (prev == NULL)
     {
         p = oSymTable -> next;
         free(oSymTable -> key);
         free(oSymTable);
         oSymTable = p;
-        tebugcounter2++;
         return 1;
     }
-    else /* node between 2nd and last */
+	/* Node between 2nd and last */
+    else 
     	prev->next=p->next;
     free(p->key);
     free(p);
-    tebugcounter2--;
     return 1;
 }
 
@@ -130,7 +128,8 @@ SymTable_T Symtable_put(SymTable_T oSymTable, const char *pcKey, const void *pvV
     return oSymTable;    
 }
 
-int SymTable_contains(SymTable_T oSymTable, const char *pcKey) /* psaxnei an ta bindings me id pcKey uparxoyn */
+/* Searches if the bindings with id pcKey exist */
+int SymTable_contains(SymTable_T oSymTable, const char *pcKey)
 {
     SymTable_T p;
     assert(oSymTable);
@@ -145,7 +144,8 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) /* psaxnei an ta 
         return 1;
 }
 
-void *SymTable_get(SymTable_T oSymTable, const char *pcKey) /* epistrefei tin timi tou binding me to pckey or NULL an to pckey den uparxei */
+/* Returns the value of binding with the pckey or NULL if the pckey doesn't exist */
+void *SymTable_get(SymTable_T oSymTable, const char *pcKey)
 {
     SymTable_T p;
     assert(oSymTable);
@@ -160,28 +160,24 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) /* epistrefei tin ti
         return p->value;
 }
 
-void SymTable_map(SymTable_T oSymTable,void (*pfApply)(const char *pcKey,void *pvValue,     /*  SymTable_map = efarmozei to pfApply se kathe binding tou oSymtable */
-void *pvExtra),const void *pvExtra)
+/*  SymTable_map = applies to pfApply at every binding of oSymtable */
+void SymTable_map(SymTable_T oSymTable,void (*pfApply)(const char *pcKey,void *pvValue, void *pvExtra),const void *pvExtra)
 {
-	int tebugcounter3 = 0; /* gia tebug */
-	
     SymTable_T p;
     assert(oSymTable);
     assert(pfApply);
     p=oSymTable;
     while (p) 
     {
-    	tebugcounter3++;
         if (p->value)
             pfApply(p->key, &(p->value), (void *)pvExtra);
         p=p->next;
     }
 }
 
-void print(SymTable_T oSymTable) /* print fuction = SymbolTble keys */
+/* print fuction = SymbolTble keys */
+void print(SymTable_T oSymTable)
 {
-	int tebugcounter4 = 0; /* gia tebug */
-	
     SymTable_T p;
     assert(oSymTable);
     p=oSymTable;
@@ -193,10 +189,8 @@ void print(SymTable_T oSymTable) /* print fuction = SymbolTble keys */
     p=p->next;
     while(p != NULL && p->key!=NULL)
     {
-    	tebugcounter4++;
         printf("%s->",p->key);
         p=p->next;
     }
-    tebugcounter4--;
     printf("\n");
 }
